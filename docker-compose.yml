@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  command:
+    build: 
+      context: ./command-service
+    
+    ports:
+      - "5001:4001"  # Expose Node.js app on port 4000
+    environment:
+      - JWT_SECRET=hfbvhdviohrvb94958  # Set environment variable
+    depends_on:
+      - db
+    volumes:
+      - /app/node_modules  
+
+  produits:
+    build: ./produit-service
+    
+    ports:
+      - "5000:4000"
+    volumes:
+      - /app/node_modules
+    depends_on:
+      - db
+      
+  db:
+    container_name: db
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+    - "27017:27017"
+
