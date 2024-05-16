@@ -23,7 +23,16 @@ services:
       - /app/node_modules
     depends_on:
       - db
-      
+
+  auth:
+    build: ./random
+    
+    ports:
+      - "5002:4002"
+    volumes:
+      - /app/node_modules
+    depends_on:
+      - db      
   db:
     container_name: db
     image: mongo

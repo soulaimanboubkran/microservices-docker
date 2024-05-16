@@ -39,7 +39,9 @@ app.listen(PORT, ()=> {
 
 
 
-
+app.get("/", (req, res, next) => {
+   res.json('hello')
+});
 
 
 app.post("/api/produit/ajouter", (req, res, next) => {
