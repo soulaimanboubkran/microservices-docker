@@ -72,7 +72,7 @@ function App() {
             required
           />
         </div>
-        <button type="submit">Add here </button>
+        <button type="submit">Add produit </button>
       </form>
       {message && <p>{message}</p>}
     </div>

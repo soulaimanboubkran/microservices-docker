@@ -5,10 +5,12 @@ const mongoose = require("mongoose");
 const Commande = require("./Commande.js");
 const axios = require('axios');
 const dotenv = require('dotenv');
-
+const cors = require('cors') // Import cors
 
 app.use(express.json());
 dotenv.config()
+// Use CORS middleware
+app.use(cors());
 const connectWithRetry = async () => {
     try {
         await mongoose.connect('mongodb://db-s:27017/commands');
