@@ -11,7 +11,7 @@ app.use(express.json());
 dotenv.config()
 const connectWithRetry = async () => {
     try {
-        await mongoose.connect('mongodb://db:27017/commands');
+        await mongoose.connect('mongodb://db-s:27017/commands');
         console.log('Connected to MongoDB');
     } catch (error) {
         console.error('MongoDB connection error:', error);
@@ -42,7 +42,7 @@ return total;
 async function httpRequest(ids) {
     console.log(ids)
 try {
-const URL = `http://localhost:4000/api/produit/acheter/${ids}`
+const URL = `http://localhost:5000/api/produit/acheter/${ids}`
 const response = await axios.get(URL,  {
  
 

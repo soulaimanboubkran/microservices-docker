@@ -1,7 +1,7 @@
 import express from "express";
 const app = express();
 const PORT =  4000;
-
+import cors from "cors";  // Import cors
 import Produit from "./Produit.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -10,7 +10,8 @@ dotenv.config()
 
 
 
-
+// Use CORS middleware
+app.use(cors());
 
 app.use(express.json())
 
@@ -19,7 +20,7 @@ app.use(express.json())
 
 const connectWithRetry = async () => {
     try {
-        await mongoose.connect('mongodb://db:27017/produits');
+        await mongoose.connect(process.env.MONGODB_URI || 'mongodb://db-s:27017/produits');
         console.log('Connected to MongoDB wewe');
     } catch (error) {
         console.error('MongoDB connection error:', error);
@@ -62,6 +63,7 @@ newProduit.save()
 app.get("/api/produit/acheter/:ids", (req, res, next) => {
 //const { ids } = req.body;
 const { ids } = req.params;
+
 
 console.log(ids)
     Produit.find({ _id: { $in: ids } })

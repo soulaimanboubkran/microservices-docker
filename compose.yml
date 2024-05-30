@@ -1,0 +1,51 @@
+version: '3.9'
+services:
+  db-s:
+    image: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - app_network
+
+  client:
+    build: ./client
+    ports:
+      - 80:5173
+    networks:
+      - app_network
+    volumes:
+      - ./client:/usr/src/app
+    command: npm run dev
+
+  commands:
+    build: ./command-service
+    ports:
+      - 5001:4001
+    depends_on:
+      - db-s
+    environment:
+      - MONGODB_URI=mongodb://db-s:27017/commands
+    networks:
+      - app_network
+    volumes:
+      - ./command-service:/usr/src/app
+    command: npm run start  # Use `npm run start` if you want hot-reloading with nodemon
+
+  produits:
+    build: ./produit-service
+    ports:
+      - 5000:4000
+    depends_on:
+      - db-s
+      - commands
+    environment:
+      - MONGODB_URI=mongodb://db-s:27017/produits
+    networks:
+      - app_network
+    volumes:
+      - ./produit-service:/usr/src/app
+    command: npm run start  # Use `npm run start` if you want hot-reloading with nodemon
+
+networks:
+  app_network:
+    driver: bridge
